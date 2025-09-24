@@ -1,0 +1,79 @@
+# ========== Android / Gradle ==========
+**/.gradle/
+**/build/
+!**/gradle/wrapper/gradle-wrapper.jar
+
+# ========== Android Studio / IntelliJ ==========
+**/.idea/
+**/*.iml
+**/.cxx/
+**/.externalNativeBuild/
+**/captures/
+**/.DS_Store
+**/Thumbs.db
+**/.vscode/
+**/.settings/
+**/.classpath
+**/.project
+**/.metadata/
+
+# ========== Configuración local ==========
+**/local.properties
+
+# ========== Artefactos de compilación ==========
+**/*.apk
+**/*.ap_
+**/*.aab
+**/output.json
+**/release/
+
+# ========== Archivos temporales ==========
+**/*.log
+**/*.tmp
+**/*~
+**/*.swp
+**/*.lock
+
+# ========== Archivos de firma (¡NO subas tus claves!)
+**/*.jks
+**/*.keystore
+**/keystore.properties
+
+# ========== Firebase / Crashlytics ==========
+**/crashlytics-build.properties
+**/fabric.properties
+**/google-services.json
+**/firebase.json
+
+# ========== Fastlane (si lo usas para deploy)
+**/fastlane/report.xml
+**/fastlane/screenshots
+**/fastlane/test_output
+
+# ========== IDEs adicionales ==========
+**/.idea/
+**/.vscode/
+**/.sublime-project
+**/.sublime-workspace
+
+# ========== Sistema operativo ==========
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ========== Node (si usas React Native o herramientas JS)
+node_modules/
+npm-debug.log
+yarn-error.log
+.pnpm-debug.log
+
+# ========== Python (si usas scripts con Python)
+env/
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+
+# ========== Git ==========
+*.orig
+*.rej
