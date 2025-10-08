@@ -9,16 +9,19 @@
     android:useDefaultMargins="true">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="52dp"
+        android:id="@+id/texto"
+        android:layout_width="358dp"
+        android:layout_height="35dp"
         android:layout_columnSpan="4"
-        android:layout_gravity="left"
-        android:background="#D1D1BE"
+        android:textSize="25sp"
         android:layout_alignParentRight="true"
-        android:text="0">
+        android:background="#D1D1BE"
+        android:gravity="end"
+        android:text="">
 
     </TextView>
     <Button
+        android:id="@+id/boton1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
@@ -27,6 +30,7 @@
         android:text="1">
     </Button>
     <Button
+        android:id="@+id/boton2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
@@ -34,6 +38,7 @@
         android:text="2">
     </Button>
     <Button
+        android:id="@+id/boton3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
@@ -41,6 +46,7 @@
         android:text="3">
     </Button>
     <Button
+        android:id="@+id/botonbarra"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
@@ -49,6 +55,7 @@
     </Button>
 
     <Button
+        android:id="@+id/boton4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
@@ -56,6 +63,7 @@
         android:text="4">
     </Button>
     <Button
+        android:id="@+id/boton5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
@@ -63,6 +71,7 @@
         android:text="5">
     </Button>
     <Button
+        android:id="@+id/boton6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
@@ -70,6 +79,7 @@
         android:text="6">
     </Button>
     <Button
+        android:id="@+id/botonasterisco"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
@@ -77,6 +87,7 @@
         android:text="*">
     </Button>
     <Button
+        android:id="@+id/boton7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
@@ -84,6 +95,7 @@
         android:text="7">
     </Button>
     <Button
+        android:id="@+id/boton8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
@@ -91,6 +103,7 @@
         android:text="8">
     </Button>
     <Button
+        android:id="@+id/boton9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
@@ -98,6 +111,7 @@
         android:text="9">
     </Button>
     <Button
+        android:id="@+id/botonmenos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
@@ -105,6 +119,7 @@
         android:text="-">
     </Button>
     <Button
+        android:id="@+id/boton0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
@@ -112,6 +127,7 @@
         android:text="0">
     </Button>
     <Button
+        android:id="@+id/botonpunto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
@@ -119,6 +135,7 @@
         android:text=".">
     </Button>
     <Button
+        android:id="@+id/botonigual"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
@@ -126,6 +143,7 @@
         android:text="=">
     </Button>
     <Button
+        android:id="@+id/botonmas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"

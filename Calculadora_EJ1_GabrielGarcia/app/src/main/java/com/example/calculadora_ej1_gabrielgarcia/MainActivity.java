@@ -1,7 +1,6 @@
-package com.example.calculadora_gabrielgarcia;
+package com.example.calculadora_ej1_gabrielgarcia;
 
 import android.os.Bundle;
-import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,9 +21,4 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
     }
-    protected void onStart(){
-        super.onStart();
-        TextView texto = findViewById(R.id.texto);
-    }
-
 }
