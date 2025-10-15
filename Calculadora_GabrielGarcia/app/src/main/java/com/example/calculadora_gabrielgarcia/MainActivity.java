@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         TextView texto = findViewById(R.id.texto);
         ArrayList<Double> lista = new ArrayList<>();
+        ArrayList<String> operadores = new ArrayList<>();
         final double[] numero1 = {0};
         final double[] numero2 = {0};
 
@@ -38,7 +39,13 @@ public class MainActivity extends AppCompatActivity {
 
                 }
                 else{
-                    texto.setText( texto.getText() + "0");
+                    String primero = texto.getText().toString();
+                    if(primero.equals("0")){
+                        texto.setText("0");
+                    }
+                    else{
+                        texto.setText( texto.getText() + "0");
+                    }
                 }
             }
 
@@ -46,16 +53,28 @@ public class MainActivity extends AppCompatActivity {
         Button boton1 = findViewById(R.id.boton1);
         boton1.setOnClickListener(new View.OnClickListener(){
             @Override
-                    public void onClick(View view){
+            public void onClick(View view){
+                String primero = texto.getText().toString();
+                if(primero.equals("0")){
+                    texto.setText("1");
+                }
+                else{
                     texto.setText( texto.getText() + "1");
                 }
+            }
 
-            });
+        });
         Button boton2 = findViewById(R.id.boton2);
         boton2.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                texto.setText(texto.getText() + "2");
+                String primero = texto.getText().toString();
+                if(primero.equals("0")){
+                    texto.setText("2");
+                }
+                else{
+                    texto.setText( texto.getText() + "2");
+                }
             }
 
         });
@@ -63,7 +82,13 @@ public class MainActivity extends AppCompatActivity {
         boton3.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                texto.setText(texto.getText() + "3");
+                String primero = texto.getText().toString();
+                if(primero.equals("0")){
+                    texto.setText("3");
+                }
+                else{
+                    texto.setText( texto.getText() + "3");
+                }
             }
 
         });
@@ -71,7 +96,13 @@ public class MainActivity extends AppCompatActivity {
         boton4.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                texto.setText(texto.getText() + "4");
+                String primero = texto.getText().toString();
+                if(primero.equals("0")){
+                    texto.setText("4");
+                }
+                else{
+                    texto.setText( texto.getText() + "4");
+                }
             }
 
         });
@@ -79,7 +110,13 @@ public class MainActivity extends AppCompatActivity {
         boton5.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                texto.setText(texto.getText() + "5");
+                String primero = texto.getText().toString();
+                if(primero.equals("0")){
+                    texto.setText("5");
+                }
+                else{
+                    texto.setText( texto.getText() + "5");
+                }
             }
 
         });
@@ -87,7 +124,13 @@ public class MainActivity extends AppCompatActivity {
         boton6.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                texto.setText(texto.getText() + "6");
+                String primero = texto.getText().toString();
+                if(primero.equals("0")){
+                    texto.setText("6");
+                }
+                else{
+                    texto.setText( texto.getText() + "6");
+                }
             }
 
         });
@@ -95,7 +138,13 @@ public class MainActivity extends AppCompatActivity {
         boton7.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                texto.setText(texto.getText() + "7");
+                String primero = texto.getText().toString();
+                if(primero.equals("0")){
+                    texto.setText("7");
+                }
+                else{
+                    texto.setText( texto.getText() + "7");
+                }
             }
 
         });
@@ -103,7 +152,13 @@ public class MainActivity extends AppCompatActivity {
         boton8.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                texto.setText(texto.getText() + "8");
+                String primero = texto.getText().toString();
+                if(primero.equals("0")){
+                    texto.setText("8");
+                }
+                else{
+                    texto.setText( texto.getText() + "8");
+                }
             }
 
         });
@@ -111,7 +166,13 @@ public class MainActivity extends AppCompatActivity {
         boton9.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                texto.setText(texto.getText() + "9");
+                String primero = texto.getText().toString();
+                if(primero.equals("0")){
+                    texto.setText("9");
+                }
+                else{
+                    texto.setText( texto.getText() + "9");
+                }
             }
 
         });
@@ -119,7 +180,15 @@ public class MainActivity extends AppCompatActivity {
         botonpunto.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                texto.setText(texto.getText() + ".");
+                if(texto.length() != 0){
+                    char ultimoChar = texto.getText().toString().charAt(texto.length() - 1);
+                    if(ultimoChar == '.'){
+                        System.out.println("ladfsfjdsalkj");
+                    }
+                    else{
+                        texto.setText(texto.getText() + ".");
+                    }
+                }
             }
 
         });
@@ -127,9 +196,25 @@ public class MainActivity extends AppCompatActivity {
         botondivdir.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                numero1[0] = Double.parseDouble(texto.getText().toString());
-               operador[0] = "/";
-               texto.setText("");
+
+                //numero1[0] = Double.parseDouble(texto.getText().toString());
+                //operador[0] = "/";
+                operadores.add("/");
+
+                String textoActual = texto.getText().toString();
+                char ultimoChar = textoActual.charAt(textoActual.length() - 1);
+
+                if(ultimoChar == '*' || ultimoChar == '/' || ultimoChar == '+' || ultimoChar == '-'){
+                    System.out.println(ultimoChar);
+                    String nuevoTexto = textoActual.substring(0, textoActual.length() - 1);
+                    texto.setText(nuevoTexto + "/");
+
+                }
+                else{
+                    texto.setText(texto.getText().toString() + "/");
+
+                }
+
             }
 
         });
@@ -137,9 +222,23 @@ public class MainActivity extends AppCompatActivity {
         botonasterisco.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                numero1[0] =  Double.parseDouble(texto.getText().toString());
-                operador[0] = "*";
-                texto.setText("");
+                //numero1[0] =  Double.parseDouble(texto.getText().toString());
+                //operador[0] = "*";
+                operadores.add("*");
+
+                String textoActual = texto.getText().toString();
+                char ultimoChar = textoActual.charAt(textoActual.length() - 1);
+
+                if(ultimoChar == '*' || ultimoChar == '/' || ultimoChar == '+' || ultimoChar == '-'){
+                    System.out.println(ultimoChar);
+                    String nuevoTexto = textoActual.substring(0, textoActual.length() - 1);
+                    texto.setText(nuevoTexto + "*");
+                }
+                else{
+                    texto.setText(texto.getText().toString() + "*");
+
+
+                }
             }
 
         });
@@ -147,9 +246,23 @@ public class MainActivity extends AppCompatActivity {
         botonmenos.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                numero1[0] =  Double.parseDouble(texto.getText().toString());
-                operador[0] = "-";
-                texto.setText("");
+                //numero1[0] =  Double.parseDouble(texto.getText().toString());
+                //operador[0] = "-";
+                operadores.add("-");
+
+                String textoActual = texto.getText().toString();
+                char ultimoChar = textoActual.charAt(textoActual.length() - 1);
+
+                if(ultimoChar == '*' || ultimoChar == '/' || ultimoChar == '+' || ultimoChar == '-'){
+                    System.out.println(ultimoChar);
+                    String nuevoTexto = textoActual.substring(0, textoActual.length() - 1);
+                    texto.setText(nuevoTexto + "-");
+
+                }
+                else{
+                    texto.setText(texto.getText().toString() + "-");
+
+                }
             }
 
         });
@@ -157,9 +270,24 @@ public class MainActivity extends AppCompatActivity {
         botonmas.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                numero1[0] = Double.parseDouble(texto.getText().toString());
-                operador[0] = "+";
-                texto.setText("");
+
+                //numero1[0] = Double.parseDouble(texto.getText().toString());
+                //operador[0] = "+";
+                operadores.add("+");
+
+                String textoActual = texto.getText().toString();
+                char ultimoChar = textoActual.charAt(textoActual.length() - 1);
+
+                if(ultimoChar == '*' || ultimoChar == '/' || ultimoChar == '+' || ultimoChar == '-'){
+                    System.out.println(ultimoChar);
+                    String nuevoTexto = textoActual.substring(0, textoActual.length() - 1);
+                    texto.setText(nuevoTexto + "+");
+
+                }
+                else{
+                    texto.setText(texto.getText().toString() + "+");
+
+                }
             }
 
         });
@@ -191,6 +319,7 @@ public class MainActivity extends AppCompatActivity {
         botonigual.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                System.out.println(lista);
                 numero2[0] = Double.parseDouble(texto.getText().toString());
                 double numeroFinal = 0;
                 if(operador[0] == "*"){
@@ -212,5 +341,5 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-        };
+    };
 }
