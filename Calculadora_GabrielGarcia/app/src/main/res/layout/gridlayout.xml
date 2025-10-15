@@ -50,7 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
-        android:backgroundTint="#A339DC"
+        android:backgroundTint="#DC3980"
         android:text="/">
     </Button>
 
@@ -83,7 +83,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
-        android:backgroundTint="#A339DC"
+        android:backgroundTint="#DC3980"
         android:text="*">
     </Button>
     <Button
@@ -115,39 +115,58 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
-        android:backgroundTint="#A339DC"
+        android:backgroundTint="#DC3980"
         android:text="-">
     </Button>
+
     <Button
         android:id="@+id/boton0"
+        android:layout_width="255dp"
+        android:layout_height="wrap_content"
+        android:layout_columnSpan="3"
+        android:layout_margin="2dp"
+        android:backgroundTint="#A339DC"
+        android:text="0"></Button>
+
+
+    <Button
+        android:id="@+id/botonmas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
-        android:backgroundTint="#A339DC"
-        android:text="0">
+        android:backgroundTint="#DC3980"
+        android:text="+">
     </Button>
     <Button
         android:id="@+id/botonpunto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
-        android:backgroundTint="#A339DC"
+        android:backgroundTint="#DC3980"
         android:text=".">
+    </Button>
+    <Button
+        android:id="@+id/c"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:backgroundTint="#DC3980"
+        android:text="C">
+    </Button>
+    <Button
+        android:id="@+id/ac"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:backgroundTint="#DC3980"
+        android:text="AC">
     </Button>
     <Button
         android:id="@+id/botonigual"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
-        android:backgroundTint="#A339DC"
+        android:backgroundTint="#3957DC"
         android:text="=">
-    </Button>
-    <Button
-        android:id="@+id/botonmas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="2dp"
-        android:backgroundTint="#A339DC"
-        android:text="+">
     </Button>
 </GridLayout>

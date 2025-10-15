@@ -1,6 +1,8 @@
 package com.example.calculadora_gabrielgarcia;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -9,22 +11,206 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        setContentView(R.layout.gridlayout);
     }
     protected void onStart(){
         super.onStart();
         TextView texto = findViewById(R.id.texto);
-    }
+        ArrayList<Double> lista = new ArrayList<>();
+        final double[] numero1 = {0};
+        final double[] numero2 = {0};
 
+        final String[] operador = {""};
+        Button boton0 = findViewById(R.id.boton0);
+        boton0.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                int pos = texto.length();
+                if(pos == 0){
+
+                }
+                else{
+                    texto.setText( texto.getText() + "0");
+                }
+            }
+
+        });
+        Button boton1 = findViewById(R.id.boton1);
+        boton1.setOnClickListener(new View.OnClickListener(){
+            @Override
+                    public void onClick(View view){
+                    texto.setText( texto.getText() + "1");
+                }
+
+            });
+        Button boton2 = findViewById(R.id.boton2);
+        boton2.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                texto.setText(texto.getText() + "2");
+            }
+
+        });
+        Button boton3 = findViewById(R.id.boton3);
+        boton3.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                texto.setText(texto.getText() + "3");
+            }
+
+        });
+        Button boton4 = findViewById(R.id.boton4);
+        boton4.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                texto.setText(texto.getText() + "4");
+            }
+
+        });
+        Button boton5 = findViewById(R.id.boton5);
+        boton5.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                texto.setText(texto.getText() + "5");
+            }
+
+        });
+        Button boton6 = findViewById(R.id.boton6);
+        boton6.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                texto.setText(texto.getText() + "6");
+            }
+
+        });
+        Button boton7 = findViewById(R.id.boton7);
+        boton7.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                texto.setText(texto.getText() + "7");
+            }
+
+        });
+        Button boton8 = findViewById(R.id.boton8);
+        boton8.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                texto.setText(texto.getText() + "8");
+            }
+
+        });
+        Button boton9 = findViewById(R.id.boton9);
+        boton9.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                texto.setText(texto.getText() + "9");
+            }
+
+        });
+        Button botonpunto = findViewById(R.id.botonpunto);
+        botonpunto.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                texto.setText(texto.getText() + ".");
+            }
+
+        });
+        Button botondivdir = findViewById(R.id.botonbarra);
+        botondivdir.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                numero1[0] = Double.parseDouble(texto.getText().toString());
+               operador[0] = "/";
+               texto.setText("");
+            }
+
+        });
+        Button botonasterisco = findViewById(R.id.botonasterisco);
+        botonasterisco.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                numero1[0] =  Double.parseDouble(texto.getText().toString());
+                operador[0] = "*";
+                texto.setText("");
+            }
+
+        });
+        Button botonmenos = findViewById(R.id.botonmenos);
+        botonmenos.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                numero1[0] =  Double.parseDouble(texto.getText().toString());
+                operador[0] = "-";
+                texto.setText("");
+            }
+
+        });
+        Button botonmas = findViewById(R.id.botonmas);
+        botonmas.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                numero1[0] = Double.parseDouble(texto.getText().toString());
+                operador[0] = "+";
+                texto.setText("");
+            }
+
+        });
+        Button c = findViewById(R.id.c);
+        c.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                int pos = texto.length();
+                if(pos == 0){
+                    texto.setText("0");
+                }
+                else{
+                    String textofinal = texto.getText().toString();
+                    texto.setText(textofinal.substring(0, texto.length() - 1));
+                }
+            }
+
+        });
+        Button ac = findViewById(R.id.ac);
+        ac.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                texto.setText("0");
+            }
+
+        });
+
+        Button botonigual = findViewById(R.id.botonigual);
+        botonigual.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                numero2[0] = Double.parseDouble(texto.getText().toString());
+                double numeroFinal = 0;
+                if(operador[0] == "*"){
+                    numeroFinal = numero1[0] * numero2[0];
+                }
+                else if(operador[0]== "/"){
+                    numeroFinal = numero1[0] / numero2[0];
+                }
+                else if(operador[0]== "+"){
+                    numeroFinal = numero1[0] + numero2[0];
+                }
+                else if(operador[0]== "-"){
+                    numeroFinal = numero1[0] - numero2[0];
+                }
+                else{
+                    numeroFinal = 0;
+                }
+                texto.setText(String.valueOf(numeroFinal));
+            }
+
+        });
+        };
 }
