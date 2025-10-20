@@ -21,15 +21,56 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.gridlayout);
     }
+
+    /**
+     * Este método se utiliza para recibir una cadena de texto y devuelve la cadena que se encuentre después de cualquier operador hasta el final
+     * @param texto
+     * @return
+     */
+    private String obtenerUltimoNumero(String texto) {
+        int ultimaPos = -1;
+        for (int i = texto.length() - 1; i >= 0; i--) {
+            char c = texto.charAt(i);
+            if (c == '+' || c == '-' || c == '*' || c == '/') {
+                ultimaPos = i;
+                break;
+            }
+        }
+        return texto.substring(ultimaPos + 1);
+    }
+
+    /**
+     * Este método sirve para evitar varios puntos simultaneos, devuelve verdadero o falso, según si ya contiene un "." o no
+     * @param textoActual
+     * @return
+     */
+    private boolean puedeAgregarPunto(String textoActual) {
+        String ultimoNumero = obtenerUltimoNumero(textoActual);
+        return !ultimoNumero.contains(".");
+    }
+
+    /**
+     * Este comprueba que el caracter anterior al que vas a escribir y valida si es un operador, si es un operador devuelve "false"
+     * @param textActual
+     * @return
+     */
+    private boolean anteriorCaract(String textActual){
+        char ultimoNumero = textActual.charAt(textActual.length()-1);
+        if(ultimoNumero == '+' || ultimoNumero == '-' || ultimoNumero == '*' || ultimoNumero == '/' ){
+            return false;
+        }
+        return true;
+    }
+
     protected void onStart(){
         super.onStart();
+        /**
+         * Este textView, sirve para almacenar el contenido escrito
+         */
         TextView texto = findViewById(R.id.texto);
-        ArrayList<Double> lista = new ArrayList<>();
-        ArrayList<String> operadores = new ArrayList<>();
-        final double[] numero1 = {0};
-        final double[] numero2 = {0};
-
-        final String[] operador = {""};
+        /**
+         * Sirve para cada uno de los botones enlazarlos con los del diseño, y cada uno de ellos con su onClickListener
+         */
         Button boton0 = findViewById(R.id.boton0);
         boton0.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -61,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
                 else{
                     texto.setText( texto.getText() + "1");
                 }
+
             }
 
         });
@@ -176,36 +218,46 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+
         Button botonpunto = findViewById(R.id.botonpunto);
+        /**
+         * Dentro del botón de ".", compruebo antes de escribirlo, si es posible según la cantidad de . que haya dentro del número, si el anterior es un operador, además si el tamaño es diferente a 0 (para evitar escribir un . al principio)
+         */
         botonpunto.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                if(texto.length() != 0){
-                    char ultimoChar = texto.getText().toString().charAt(texto.length() - 1);
-                    if(ultimoChar == '.'){
-                        System.out.println("ladfsfjdsalkj");
+                String textoActual = texto.getText().toString();
+                    if (puedeAgregarPunto(textoActual) && anteriorCaract(textoActual)) {
+                        if(texto.length() != 0){
+                            char ultimoChar = texto.getText().toString().charAt(texto.length() - 1);
+                            if(ultimoChar == '.'){
+
+                            }
+                            else{
+                                texto.setText(texto.getText() + ".");
+                            }
+                        }
                     }
-                    else{
-                        texto.setText(texto.getText() + ".");
-                    }
-                }
             }
 
         });
+        /**
+         * En todos los operadores cada vez que se pulsa en el botón, analiza si el ultimo caracter escrito es igual a un punto, en caso de ser así mantiene el texto como está
+         * En caso de que el ultimo caracter sea cualquier operador elimina la ultima posición (con el substring coge toda la cadena, menos el ultimo) y agrega el operador pulsado
+         * En caso de que no sea ninguno de estos casos escribe el operador
+         */
         Button botondivdir = findViewById(R.id.botonbarra);
         botondivdir.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
 
-                //numero1[0] = Double.parseDouble(texto.getText().toString());
-                //operador[0] = "/";
-                operadores.add("/");
-
                 String textoActual = texto.getText().toString();
                 char ultimoChar = textoActual.charAt(textoActual.length() - 1);
-
+                if(ultimoChar == '.'){
+                    texto.setText(textoActual);
+                    return;
+                }
                 if(ultimoChar == '*' || ultimoChar == '/' || ultimoChar == '+' || ultimoChar == '-'){
-                    System.out.println(ultimoChar);
                     String nuevoTexto = textoActual.substring(0, textoActual.length() - 1);
                     texto.setText(nuevoTexto + "/");
 
@@ -222,13 +274,14 @@ public class MainActivity extends AppCompatActivity {
         botonasterisco.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                //numero1[0] =  Double.parseDouble(texto.getText().toString());
-                //operador[0] = "*";
-                operadores.add("*");
 
                 String textoActual = texto.getText().toString();
                 char ultimoChar = textoActual.charAt(textoActual.length() - 1);
 
+                if(ultimoChar == '.'){
+                    texto.setText(textoActual);
+                    return;
+                }
                 if(ultimoChar == '*' || ultimoChar == '/' || ultimoChar == '+' || ultimoChar == '-'){
                     System.out.println(ultimoChar);
                     String nuevoTexto = textoActual.substring(0, textoActual.length() - 1);
@@ -246,13 +299,14 @@ public class MainActivity extends AppCompatActivity {
         botonmenos.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                //numero1[0] =  Double.parseDouble(texto.getText().toString());
-                //operador[0] = "-";
-                operadores.add("-");
 
                 String textoActual = texto.getText().toString();
                 char ultimoChar = textoActual.charAt(textoActual.length() - 1);
 
+                if(ultimoChar == '.'){
+                    texto.setText(textoActual);
+                    return;
+                }
                 if(ultimoChar == '*' || ultimoChar == '/' || ultimoChar == '+' || ultimoChar == '-'){
                     System.out.println(ultimoChar);
                     String nuevoTexto = textoActual.substring(0, textoActual.length() - 1);
@@ -271,13 +325,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
 
-                //numero1[0] = Double.parseDouble(texto.getText().toString());
-                //operador[0] = "+";
-                operadores.add("+");
-
                 String textoActual = texto.getText().toString();
                 char ultimoChar = textoActual.charAt(textoActual.length() - 1);
 
+                if(ultimoChar == '.'){
+                    texto.setText(textoActual);
+                    return;
+                }
                 if(ultimoChar == '*' || ultimoChar == '/' || ultimoChar == '+' || ultimoChar == '-'){
                     System.out.println(ultimoChar);
                     String nuevoTexto = textoActual.substring(0, textoActual.length() - 1);
@@ -291,6 +345,10 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+        /**
+         * En el botón de C, en caso de que el tamaño del texto es 0, se escribirá un 0
+         * En cualquier otro caso suprimirá la ultima posición es decir, coge desde la posición 0 hasta la ultima - 1
+         */
         Button c = findViewById(R.id.c);
         c.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -306,6 +364,9 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+        /**
+         * Este cuando se pulsa el texto del textView se muestra en 0
+         */
         Button ac = findViewById(R.id.ac);
         ac.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -319,25 +380,7 @@ public class MainActivity extends AppCompatActivity {
         botonigual.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                System.out.println(lista);
-                numero2[0] = Double.parseDouble(texto.getText().toString());
-                double numeroFinal = 0;
-                if(operador[0] == "*"){
-                    numeroFinal = numero1[0] * numero2[0];
-                }
-                else if(operador[0]== "/"){
-                    numeroFinal = numero1[0] / numero2[0];
-                }
-                else if(operador[0]== "+"){
-                    numeroFinal = numero1[0] + numero2[0];
-                }
-                else if(operador[0]== "-"){
-                    numeroFinal = numero1[0] - numero2[0];
-                }
-                else{
-                    numeroFinal = 0;
-                }
-                texto.setText(String.valueOf(numeroFinal));
+
             }
 
         });
