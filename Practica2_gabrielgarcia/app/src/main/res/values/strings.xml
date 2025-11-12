@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Gestión de Cuenta del Bar</string>
+    <string name="titulo_principal">Gestión de Cuenta del Bar</string>
+    <string name="hint_camarero">Nombre del camarero</string>
+    <string name="hint_total">Total de la cuenta (€)</string>
+    <string name="check_propina">Incluir propina</string>
+    <string name="text_propina">Porcentaje de propina: %1$d%%</string>
+    <string name="pago_efectivo">Efectivo</string>
+    <string name="pago_tarjeta">Tarjeta</string>
+    <string name="califique_servicio">Califique el servicio:</string>
+    <string name="btn_calcular">Calcular total</string>
+    <string name="error_falta_total">Falta introducir el valor de la cuenta.</string>
+    <string name="error_numero_invalido">Introduce un número válido.</string>
+    <string name="error_total_cero">El valor de la cuenta debe ser mayor que 0.</string>
+    <string name="resultado_texto">Total final: %1$.2f\nMétodo de pago: %2$s\nCalificación: %3$.1f</string>
+</resources>

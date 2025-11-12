@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Bar Account Manager</string>
+    <string name="titulo_principal">Bar Account Manager</string>
+    <string name="hint_camarero">Waiter name</string>
+    <string name="hint_total">Total bill (€)</string>
+    <string name="check_propina">Include tip</string>
+    <string name="text_propina">Tip percentage: %1$d%%</string>
+    <string name="pago_efectivo">Cash</string>
+    <string name="pago_tarjeta">Card</string>
+    <string name="califique_servicio">Rate the service:</string>
+    <string name="btn_calcular">Calculate total</string>
+    <string name="error_falta_total">Please enter the bill amount.</string>
+    <string name="error_numero_invalido">Enter a valid number.</string>
+    <string name="error_total_cero">The bill amount must be greater than 0.</string>
+    <string name="resultado_texto">Final total: %1$.2f\nPayment method: %2$s\nRating: %3$.1f</string>
+</resources>
