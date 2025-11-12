@@ -51,11 +51,9 @@ public class MainActivity extends AppCompatActivity {
             @Override public void onStopTrackingTouch(SeekBar seekBar) { }
         });
 
-        // Botón calcular
         btnCalcular.setOnClickListener(v -> {
             String totalStr = editTotal.getText().toString().trim();
 
-            // Validaciones
             if (totalStr.isEmpty()) {
                 textResultado.setTextColor(Color.RED);
                 textResultado.setText("Falta introducir el valor de la cuenta.");
@@ -77,22 +75,18 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            // Calcular propina si está seleccionada
             double totalConPropina = total;
             if (checkPropina.isChecked()) {
                 int porcentaje = seekPropina.getProgress();
                 totalConPropina += total * porcentaje / 100.0;
             }
 
-            // Método de pago
             int selectedId = radioPago.getCheckedRadioButtonId();
             RadioButton radioButton = findViewById(selectedId);
             String metodoPago = radioButton != null ? radioButton.getText().toString() : "Desconocido";
 
-            // Calificación
             float estrellas = ratingServicio.getRating();
 
-            // Mostrar resultado simple
             textResultado.setTextColor(Color.BLACK);
             textResultado.setText("Total final: " + String.format("%.2f", totalConPropina) + "\nMétodo de pago: " + metodoPago +  "\nCalificación: " + estrellas);
         });
