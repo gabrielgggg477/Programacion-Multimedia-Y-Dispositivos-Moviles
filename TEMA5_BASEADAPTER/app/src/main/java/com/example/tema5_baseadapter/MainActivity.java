@@ -2,6 +2,7 @@ package com.example.tema5_baseadapter;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ListView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,8 +20,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        View listView = findViewById(R.id.listView);
-        ArrayList<Object> items = new ArrayList<>();
-        //items.add
+        ListView listView = findViewById(R.id.listView);
+        ArrayList<ListItem> items = new ArrayList<>();
+        //items.add(new ListItem(R.drawable.ic_launcher_foreground), "Titulo1", "Contenido del elemento 1");
+        CustomAdapter adapter = new CustomAdapter(this, items);
+        listView.setAdapter(adapter);
     }
 }

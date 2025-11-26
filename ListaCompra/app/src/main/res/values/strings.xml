@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Lista de Compra</string>
+    <string name="hint_nombre">Nombre del artículo</string>
+    <string name="hint_cantidad">Cantidad</string>
+    <string name="btn_agregar">Agregar</string>
+    <string name="btn_eliminar">Eliminar</string>
+    <string name="tv_nombre">Nombre</string>
+    <string name="tv_cantidad">Cantidad</string>
+    <string name="toast_faltan_datos">Ingresa nombre y cantidad</string>
+    <string name="cantidad_text">Cantidad: %1$d</string>
+    <string name="item_leche">Leche</string>
+    <string name="item_pan">Pan</string>
+    <string name="item_huevos">Huevos</string>
+    <string name="item_manzana">Manzana</string>
+
+</resources>

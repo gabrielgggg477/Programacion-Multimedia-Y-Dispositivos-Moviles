@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Shopping List</string>
+    <string name="hint_nombre">Item Name</string>
+    <string name="hint_cantidad">Quantity</string>
+    <string name="btn_agregar">Add</string>
+    <string name="btn_eliminar">Delete</string>
+    <string name="tv_nombre">Name</string>
+    <string name="tv_cantidad">Quantity</string>
+    <string name="toast_faltan_datos">Enter name and quantity</string>
+    <string name="cantidad_text">Quantity: %1$d</string>
+    <string name="item_leche">Milk</string>
+    <string name="item_pan">Bread</string>
+    <string name="item_huevos">Eggs</string>
+    <string name="item_manzana">Apple</string>
+
+</resources>

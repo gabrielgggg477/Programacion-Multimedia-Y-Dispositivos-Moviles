@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,7 +24,15 @@ public class MainActivity extends AppCompatActivity {
         List<String> data = Arrays.asList("Elemento 1", "Elemento 2", "Elemento 3", "Elemento 4");
 
         ListView listView = findViewById(R.id.listview);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, data);
+        ArrayList<String> itemList = new ArrayList<>();
+        itemList.add("Elemento 1");
+        itemList.add("Elemento 2");
+        itemList.add("Elemento 3");
+        ArrayAdapter<String> adapter;
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, itemList);
+        listView.setAdapter(adapter);
+        registerForContextMenu(listView);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, data);
         listView.setAdapter(adapter);
 
         TextView textView = findViewById(R.id.texto);
