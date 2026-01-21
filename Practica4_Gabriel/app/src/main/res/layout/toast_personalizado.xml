@@ -1,0 +1,19 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:padding="12dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:src="@drawable/icono"
+        android:layout_width="24dp"
+        android:layout_height="24dp"/>
+
+    <TextView
+        android:id="@+id/txtToast"
+        android:textColor="@android:color/white"
+        android:paddingLeft="8dp"
+        android:textSize="14sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
