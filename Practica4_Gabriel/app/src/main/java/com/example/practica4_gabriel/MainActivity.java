@@ -2,6 +2,7 @@ package com.example.practica4_gabriel;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -19,6 +20,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -65,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         );
 
         solicitarPermisoNotificaciones();
+        crearCanalNotificaciones();
     }
 
     private void mostrarDialogoEvento() {
@@ -76,19 +80,19 @@ public class MainActivity extends AppCompatActivity {
         input.setHint("Nombre del evento");
         builder.setView(input);
 
-        builder.setPositiveButton("Siguiente", (dialog, which) -> {
-            String nombre = input.getText().toString();
-            seleccionarFecha(nombre);
-        });
+        builder.setPositiveButton("Siguiente", (dialog, which) ->
+                seleccionarFecha(input.getText().toString())
+        );
 
         builder.setNegativeButton("Cancelar", null);
         builder.show();
     }
 
     private void seleccionarFecha(String nombre) {
+
         Calendar c = Calendar.getInstance();
 
-        DatePickerDialog dpd = new DatePickerDialog(
+        new DatePickerDialog(
                 this,
                 (view, year, month, day) -> {
                     fechaSeleccionada = day + "/" + (month + 1) + "/" + year;
@@ -97,15 +101,14 @@ public class MainActivity extends AppCompatActivity {
                 c.get(Calendar.YEAR),
                 c.get(Calendar.MONTH),
                 c.get(Calendar.DAY_OF_MONTH)
-        );
-
-        dpd.show();
+        ).show();
     }
 
     private void seleccionarHora(String nombre) {
+
         Calendar c = Calendar.getInstance();
 
-        TimePickerDialog tpd = new TimePickerDialog(
+        new TimePickerDialog(
                 this,
                 (view, hour, minute) -> {
                     horaSeleccionada = hour + ":" + String.format("%02d", minute);
@@ -114,9 +117,7 @@ public class MainActivity extends AppCompatActivity {
                 c.get(Calendar.HOUR_OF_DAY),
                 c.get(Calendar.MINUTE),
                 true
-        );
-
-        tpd.show();
+        ).show();
     }
 
     private void agregarEvento(String nombre) {
@@ -126,45 +127,106 @@ public class MainActivity extends AppCompatActivity {
 
         adapter.add(nombre + " - " + fechaSeleccionada + " " + horaSeleccionada);
 
-        // Notificación inmediata
-        mostrarNotificacion(evento);
+        mostrarToastPersonalizado("Evento creado");
 
-        // 🔔 ALERTA 5 SEGUNDOS DESPUÉS
-        mostrarAlertaConRetraso(evento);
-
-        // Notificación programada
-        programarNotificacion(evento);
+        notificacionInmediata(evento);
+        notificacionCincoSegundos(evento);
+        programarNotificacionExacta(evento);
     }
 
-    private void mostrarNotificacion(Evento evento) {
-
-        String canalId = "eventos";
+    private void crearCanalNotificaciones() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel canal = new NotificationChannel(
-                    canalId,
-                    "Canal Eventos",
-                    NotificationManager.IMPORTANCE_DEFAULT
+                    "eventos",
+                    "Eventos",
+                    NotificationManager.IMPORTANCE_HIGH
             );
             getSystemService(NotificationManager.class)
                     .createNotificationChannel(canal);
         }
+    }
 
-        Intent intent = new Intent(this, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(
+    private void notificacionInmediata(Evento evento) {
+
+        Notification notification = new NotificationCompat.Builder(this, "eventos")
+                .setSmallIcon(R.drawable.icono)
+                .setContentTitle("Evento creado")
+                .setContentText(evento.getNombre())
+                .setAutoCancel(true)
+                .build();
+
+        enviarNotificacion(notification);
+    }
+
+    private void notificacionCincoSegundos(Evento evento) {
+
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+
+            Notification notification = new NotificationCompat.Builder(this, "eventos")
+                    .setSmallIcon(R.drawable.icono)
+                    .setContentTitle("Información")
+                    .setContentText("Evento creado hace 5 segundos")
+                    .setAutoCancel(true)
+                    .build();
+
+            enviarNotificacion(notification);
+
+        }, 5000);
+    }
+
+    private void programarNotificacionExacta(Evento evento) {
+
+        Calendar calendar = Calendar.getInstance();
+
+        String[] fecha = evento.getFecha().split("/");
+        String[] hora = evento.getHora().split(":");
+
+        calendar.set(
+                Integer.parseInt(fecha[2]),
+                Integer.parseInt(fecha[1]) - 1,
+                Integer.parseInt(fecha[0]),
+                Integer.parseInt(hora[0]),
+                Integer.parseInt(hora[1]),
+                0
+        );
+
+        Intent intent = new Intent(this, NotificationReceiver.class);
+        intent.putExtra("nombre", evento.getNombre());
+        intent.putExtra("fechaHora",
+                evento.getFecha() + " " + evento.getHora());
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 this,
-                0,
+                (int) System.currentTimeMillis(),
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
         );
 
-        Notification notification = new NotificationCompat.Builder(this, canalId)
-                .setSmallIcon(R.drawable.icono)
-                .setContentTitle(evento.getNombre())
-                .setContentText(evento.getFecha() + " " + evento.getHora())
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true)
-                .build();
+        AlarmManager alarmManager =
+                (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        if (alarmManager != null) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                if (alarmManager.canScheduleExactAlarms()) {
+                    alarmManager.setExactAndAllowWhileIdle(
+                            AlarmManager.RTC_WAKEUP,
+                            calendar.getTimeInMillis(),
+                            pendingIntent
+                    );
+                }
+            } else {
+                alarmManager.setExact(
+                        AlarmManager.RTC_WAKEUP,
+                        calendar.getTimeInMillis(),
+                        pendingIntent
+                );
+            }
+        }
+    }
+
+    private void enviarNotificacion(Notification notification) {
 
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -175,25 +237,6 @@ public class MainActivity extends AppCompatActivity {
 
         NotificationManagerCompat.from(this)
                 .notify((int) System.currentTimeMillis(), notification);
-    }
-
-    // ⏰ ALERTA CON RETRASO DE 5 SEGUNDOS
-    private void mostrarAlertaConRetraso(Evento evento) {
-
-        new Handler(Looper.getMainLooper())
-                .postDelayed(() -> {
-
-                    new AlertDialog.Builder(MainActivity.this)
-                            .setTitle("⏰ Recordatorio")
-                            .setMessage(
-                                    "Evento: " + evento.getNombre() + "\n" +
-                                            "Fecha y hora: " +
-                                            evento.getFecha() + " " + evento.getHora()
-                            )
-                            .setPositiveButton("OK", null)
-                            .show();
-
-                }, 5000);
     }
 
     private void mostrarSnackbar(View view, Evento evento) {
@@ -221,42 +264,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void programarNotificacion(Evento evento) {
+    private void mostrarToastPersonalizado(String texto) {
 
-        Calendar calendar = Calendar.getInstance();
+        View layout = getLayoutInflater()
+                .inflate(R.layout.toast_personalizado, null);
 
-        String[] fecha = evento.getFecha().split("/");
-        String[] hora = evento.getHora().split(":");
+        TextView txtToast = layout.findViewById(R.id.txtToast);
+        txtToast.setText(texto);
 
-        calendar.set(
-                Integer.parseInt(fecha[2]),
-                Integer.parseInt(fecha[1]) - 1,
-                Integer.parseInt(fecha[0]),
-                Integer.parseInt(hora[0]),
-                Integer.parseInt(hora[1])
-        );
-
-        Intent intent = new Intent(this, NotificationReceiver.class);
-        intent.putExtra("nombre", evento.getNombre());
-        intent.putExtra("fechaHora",
-                evento.getFecha() + " " + evento.getHora());
-
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                this,
-                (int) System.currentTimeMillis(),
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
-        );
-
-        android.app.AlarmManager alarmManager =
-                (android.app.AlarmManager) getSystemService(ALARM_SERVICE);
-
-        if (alarmManager != null) {
-            alarmManager.set(
-                    android.app.AlarmManager.RTC_WAKEUP,
-                    calendar.getTimeInMillis(),
-                    pendingIntent
-            );
-        }
+        Toast toast = new Toast(this);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(layout);
+        toast.show();
     }
 }
