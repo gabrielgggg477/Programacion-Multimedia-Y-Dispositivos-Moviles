@@ -10,7 +10,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +20,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -59,8 +60,6 @@ public class MainActivity extends AppCompatActivity {
         );
 
         listEventos.setAdapter(adapter);
-
-        cargarEventos();
 
         btnAgregar.setOnClickListener(v -> mostrarDialogoEvento());
 
@@ -128,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
         adapter.add(nombre + " - " + fechaSeleccionada + " " + horaSeleccionada);
 
-        guardarEventos();
+        mostrarToastPersonalizado("Evento creado");
 
         notificacionInmediata(evento);
         notificacionCincoSegundos(evento);
@@ -167,10 +166,7 @@ public class MainActivity extends AppCompatActivity {
             Notification notification = new NotificationCompat.Builder(this, "eventos")
                     .setSmallIcon(R.drawable.icono)
                     .setContentTitle("Información")
-                    .setContentText(
-                            "El evento \"" + evento.getNombre() +
-                                    "\" fue creado hace 5 segundos"
-                    )
+                    .setContentText("Evento creado hace 5 segundos")
                     .setAutoCancel(true)
                     .build();
 
@@ -268,38 +264,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void guardarEventos() {
+    private void mostrarToastPersonalizado(String texto) {
 
-        SharedPreferences prefs = getSharedPreferences("eventos", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
+        View layout = getLayoutInflater()
+                .inflate(R.layout.toast_personalizado, null);
 
-        StringBuilder datos = new StringBuilder();
-        for (Evento e : eventos) {
-            datos.append(e.getNombre()).append(";")
-                    .append(e.getFecha()).append(";")
-                    .append(e.getHora()).append("|");
-        }
+        TextView txtToast = layout.findViewById(R.id.txtToast);
+        txtToast.setText(texto);
 
-        editor.putString("lista", datos.toString());
-        editor.apply();
-    }
-
-    private void cargarEventos() {
-
-        SharedPreferences prefs = getSharedPreferences("eventos", MODE_PRIVATE);
-        String datos = prefs.getString("lista", "");
-
-        if (!datos.isEmpty()) {
-            String[] lista = datos.split("\\|");
-
-            for (String e : lista) {
-                if (!e.isEmpty()) {
-                    String[] partes = e.split(";");
-                    Evento evento = new Evento(partes[0], partes[1], partes[2]);
-                    eventos.add(evento);
-                    adapter.add(partes[0] + " - " + partes[1] + " " + partes[2]);
-                }
-            }
-        }
+        Toast toast = new Toast(this);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(layout);
+        toast.show();
     }
 }
