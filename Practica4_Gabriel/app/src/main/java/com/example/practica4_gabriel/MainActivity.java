@@ -131,7 +131,6 @@ public class MainActivity extends AppCompatActivity {
 
         notificacionInmediata(evento);
         notificacionCincoSegundos(evento);
-        programarNotificacionExacta(evento);
     }
 
     private void crearCanalNotificaciones() {
@@ -175,56 +174,7 @@ public class MainActivity extends AppCompatActivity {
         }, 5000);
     }
 
-    private void programarNotificacionExacta(Evento evento) {
 
-        Calendar calendar = Calendar.getInstance();
-
-        String[] fecha = evento.getFecha().split("/");
-        String[] hora = evento.getHora().split(":");
-
-        calendar.set(
-                Integer.parseInt(fecha[2]),
-                Integer.parseInt(fecha[1]) - 1,
-                Integer.parseInt(fecha[0]),
-                Integer.parseInt(hora[0]),
-                Integer.parseInt(hora[1]),
-                0
-        );
-
-        Intent intent = new Intent(this, NotificationReceiver.class);
-        intent.putExtra("nombre", evento.getNombre());
-        intent.putExtra("fechaHora",
-                evento.getFecha() + " " + evento.getHora());
-
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                this,
-                (int) System.currentTimeMillis(),
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
-        );
-
-        AlarmManager alarmManager =
-                (AlarmManager) getSystemService(ALARM_SERVICE);
-
-        if (alarmManager != null) {
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                if (alarmManager.canScheduleExactAlarms()) {
-                    alarmManager.setExactAndAllowWhileIdle(
-                            AlarmManager.RTC_WAKEUP,
-                            calendar.getTimeInMillis(),
-                            pendingIntent
-                    );
-                }
-            } else {
-                alarmManager.setExact(
-                        AlarmManager.RTC_WAKEUP,
-                        calendar.getTimeInMillis(),
-                        pendingIntent
-                );
-            }
-        }
-    }
 
     private void enviarNotificacion(Notification notification) {
 
