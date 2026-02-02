@@ -32,16 +32,20 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
 
-        // Iconos en los Tabs (extra)
 
 
-        // FAB con Snackbar
         binding.fab.setOnClickListener(view -> {
-            Snackbar.make(view, "Acción realizada", Snackbar.LENGTH_LONG)
-                    .setAction("OK", v -> {
-                        Toast.makeText(MainActivity.this, "Confirmado", Toast.LENGTH_SHORT).show();
-                    })
-                    .show();
+
+            FragmentOne fragment = (FragmentOne)
+                    getSupportFragmentManager().findFragmentByTag(
+                            "android:switcher:" + binding.viewPager.getId() + ":0"
+                    );
+
+            if (fragment != null) {
+                fragment.limpiarFormulario();
+            }
+
+            Snackbar.make(view, "Formulario limpiado", Snackbar.LENGTH_SHORT).show();
         });
     }
 }

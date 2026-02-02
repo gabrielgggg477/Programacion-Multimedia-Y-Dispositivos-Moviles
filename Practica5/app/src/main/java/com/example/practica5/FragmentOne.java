@@ -42,4 +42,11 @@ public class FragmentOne extends Fragment {
 
         return view;
     }
+
+    public void limpiarFormulario() {
+        if (textInputLayout != null && textInputLayout.getEditText() != null) {
+            textInputLayout.getEditText().setText("");
+            textInputLayout.setError(null);
+        }
+    }
 }
