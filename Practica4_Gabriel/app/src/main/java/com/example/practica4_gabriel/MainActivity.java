@@ -48,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnAgregar = findViewById(R.id.btnAgregar);
-        listEventos = findViewById(R.id.listEventos);
+        btnAgregar = findViewById(R.id.agregar);
+        listEventos = findViewById(R.id.list);
 
         eventos = new ArrayList<>();
 
@@ -69,6 +69,18 @@ public class MainActivity extends AppCompatActivity {
 
         solicitarPermisoNotificaciones();
         crearCanalNotificaciones();
+
+        // Recibir datos desde notificación
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra("nombre")) {
+            String nombre = intent.getStringExtra("nombre");
+            String fecha = intent.getStringExtra("fecha");
+            String hora = intent.getStringExtra("hora");
+
+            Evento evento = new Evento(nombre, fecha, hora);
+            eventos.add(evento);
+            adapter.add(nombre + " - " + fecha + " " + hora);
+        }
     }
 
     private void mostrarDialogoEvento() {
@@ -149,11 +161,24 @@ public class MainActivity extends AppCompatActivity {
 
     private void notificacionInmediata(Evento evento) {
 
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("nombre", evento.getNombre());
+        intent.putExtra("fecha", evento.getFecha());
+        intent.putExtra("hora", evento.getHora());
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                this,
+                (int) System.currentTimeMillis(),
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+
         Notification notification = new NotificationCompat.Builder(this, "eventos")
                 .setSmallIcon(R.drawable.icono)
                 .setContentTitle("Evento creado")
                 .setContentText(evento.getNombre())
                 .setAutoCancel(true)
+                .setContentIntent(pendingIntent)
                 .build();
 
         enviarNotificacion(notification);
@@ -163,11 +188,24 @@ public class MainActivity extends AppCompatActivity {
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
 
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("nombre", evento.getNombre());
+            intent.putExtra("fecha", evento.getFecha());
+            intent.putExtra("hora", evento.getHora());
+
+            PendingIntent pendingIntent = PendingIntent.getActivity(
+                    this,
+                    (int) System.currentTimeMillis(),
+                    intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+            );
+
             Notification notification = new NotificationCompat.Builder(this, "eventos")
                     .setSmallIcon(R.drawable.icono)
                     .setContentTitle("Información")
                     .setContentText("Evento creado hace 5 segundos")
                     .setAutoCancel(true)
+                    .setContentIntent(pendingIntent)
                     .build();
 
             enviarNotificacion(notification);
@@ -191,10 +229,15 @@ public class MainActivity extends AppCompatActivity {
                 0
         );
 
+        // Si la hora ya pasó, usar el día siguiente
+        if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+        }
+
         Intent intent = new Intent(this, NotificationReceiver.class);
         intent.putExtra("nombre", evento.getNombre());
-        intent.putExtra("fechaHora",
-                evento.getFecha() + " " + evento.getHora());
+        intent.putExtra("fecha", evento.getFecha());
+        intent.putExtra("hora", evento.getHora());
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 this,
@@ -208,23 +251,27 @@ public class MainActivity extends AppCompatActivity {
 
         if (alarmManager != null) {
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                if (alarmManager.canScheduleExactAlarms()) {
-                    alarmManager.setExactAndAllowWhileIdle(
+            if (alarmManager != null) {
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+
+                    if (alarmManager.canScheduleExactAlarms()) {
+                        alarmManager.setExactAndAllowWhileIdle(
+                                AlarmManager.RTC_WAKEUP,
+                                calendar.getTimeInMillis(),
+                                pendingIntent
+                        );
+                    }
+
+                } else {
+                    alarmManager.setExact(
                             AlarmManager.RTC_WAKEUP,
                             calendar.getTimeInMillis(),
                             pendingIntent
                     );
                 }
-            } else {
-                alarmManager.setExact(
-                        AlarmManager.RTC_WAKEUP,
-                        calendar.getTimeInMillis(),
-                        pendingIntent
-                );
             }
-        }
-    }
+        }}
 
     private void enviarNotificacion(Notification notification) {
 
