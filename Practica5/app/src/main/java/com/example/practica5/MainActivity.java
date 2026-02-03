@@ -1,9 +1,11 @@
 package com.example.practica5;
 
 import android.os.Bundle;
-import android.widget.Toast;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.practica5.databinding.ActivityMainBinding;
@@ -32,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
 
-
-
         binding.fab.setOnClickListener(view -> {
 
             FragmentOne fragment = (FragmentOne)
@@ -47,5 +47,21 @@ public class MainActivity extends AppCompatActivity {
 
             Snackbar.make(view, "Formulario limpiado", Snackbar.LENGTH_SHORT).show();
         });
+    }
+
+    public void abrirAgendaInterna() {
+
+        binding.viewPager.setVisibility(View.GONE);
+        binding.tabLayout.setVisibility(View.GONE);
+
+        findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
+
+        Fragment fragmentAgenda = new FragmentAgenda();
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragmentAgenda)
+                .addToBackStack(null)
+                .commit();
     }
 }
