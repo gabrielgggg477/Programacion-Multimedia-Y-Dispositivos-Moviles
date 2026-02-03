@@ -19,8 +19,8 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
         switch (position) {
             case 0:
                 return new FragmentOne(); // Tu formulario
-            case 1:
-                return new FragmentTwo(); // El fragment con botón para abrir agenda
+            //case 1:
+               // return new FragmentTwo(); // El fragment con botón para abrir agenda
             case 2:
                 return new FragmentAgenda(); // La calculadora DIRECTAMENTE en un tab
             default:
